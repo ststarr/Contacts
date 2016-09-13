@@ -22,6 +22,9 @@ class ContactsTableViewController: UITableViewController {
         let moveButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: #selector(toggleEdit))
         navigationItem.leftBarButtonItem = moveButton
         
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addContact))
+        navigationItem.rightBarButtonItem = addButton
+        
         let jenny=Contact(phoneNumber: "867-5309")
         let rich=Contact(name: "Rich", phoneNumber: "888-888-8888")
         let mindy=Contact(name: "Mindy")
@@ -36,7 +39,12 @@ class ContactsTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -123,6 +131,13 @@ class ContactsTableViewController: UITableViewController {
     
     func toggleEdit() {
         tableView.setEditing(!tableView.editing, animated: true)
+    }
+    
+    func addContact() {
+        let newContact = Contact(name: "New Contact")
+        self.contacts.append(newContact)
+        let newIndexPath = NSIndexPath(forRow: self.contacts.count - 1, inSection: 0)
+        self.tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Automatic)
     }
 
 }
